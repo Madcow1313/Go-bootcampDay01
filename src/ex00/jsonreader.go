@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"os"
 )
 
@@ -14,19 +14,19 @@ type JSONReader struct {
 }
 
 type recipes struct {
-	Cake []cake `json:"cake"`
+	Cake []cake `json:"cake" xml:"cake"`
 }
 
 type cake struct {
-	Name        string        `json:"name"`
-	Time        string        `json:"time"`
-	Ingredients []ingredients `json:"ingredients"`
+	Name        string        `json:"name" xml:"name"`
+	Time        string        `json:"time" xml:"stovetime"`
+	Ingredients []ingredients `json:"ingredients" xml:"ingredients"`
 }
 
 type ingredients struct {
-	Ingredient_name  string `json:"ingredient_name"`
-	Ingredient_count string `json:"ingredient_count"`
-	Ingredient_unit  string `json:"ingredient_unit"`
+	Ingredient_name  string `json:"ingredient_name" xml:"ingredient_name"`
+	Ingredient_count string `json:"ingredient_count" xml:"ingredient_count"`
+	Ingredient_unit  string `json:"ingredient_unit" xml:"ingredient_unit"`
 }
 
 func (r *JSONReader) readDB(path string) {
@@ -38,7 +38,7 @@ func (r *JSONReader) readDB(path string) {
 		os.Exit(-1)
 	}
 	defer r.jsonFile.Close()
-	r.byteValue, err = ioutil.ReadAll(r.jsonFile)
+	r.byteValue, err = io.ReadAll(r.jsonFile)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(-1)

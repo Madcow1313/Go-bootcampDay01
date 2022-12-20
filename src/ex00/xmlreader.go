@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"os"
 )
 
@@ -22,7 +22,7 @@ func (r *XMLReader) readDB(path string) {
 		os.Exit(-1)
 	}
 	defer r.xmlFile.Close()
-	r.byteValue, err = ioutil.ReadAll(r.xmlFile)
+	r.byteValue, err = io.ReadAll(r.xmlFile)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(-1)
@@ -43,21 +43,21 @@ func (r *XMLReader) readDB(path string) {
 }
 
 type Recipes struct {
-	Cake []Cake `xml:"cake"`
+	Cake []Cake `xml:"cake" json:"cake"`
 }
 
 type Cake struct {
-	Name        string        `xml:"name"`
-	StoveTime   string        `xml:"stovetime"`
-	Ingredients []Ingredients `xml:"ingredients"`
+	Name        string        `xml:"name" json:"name"`
+	StoveTime   string        `xml:"stovetime" json:"stovetime"`
+	Ingredients []Ingredients `xml:"ingredients" json:"ingredients"`
 }
 
 type Ingredients struct {
-	Item []Item `xml:"item"`
+	Item []Item `xml:"item" json:"item"`
 }
 
 type Item struct {
-	ItemName  string  `xml:"itemname"`
-	ItemCount float64 `xml:"itemcount"`
-	ItemUnit  string  `xml:"itemunit"`
+	ItemName  string  `xml:"itemname" json:"itemname"`
+	ItemCount float64 `xml:"itemcount" json:"itemcount"`
+	ItemUnit  string  `xml:"itemunit" json:"itemunit"`
 }
